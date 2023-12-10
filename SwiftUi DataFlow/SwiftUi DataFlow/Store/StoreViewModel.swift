@@ -85,7 +85,7 @@ class StoreViewModel: ObservableObject {
             hasDiscounted = true
             var updatedProduct = product
             
-            updatedProduct.price = (updatedProduct.price * precentage) / 100
+            updatedProduct.price = (updatedProduct.price * (100 - precentage)) / 100
             print(updatedProduct.price)
             return updatedProduct
         }

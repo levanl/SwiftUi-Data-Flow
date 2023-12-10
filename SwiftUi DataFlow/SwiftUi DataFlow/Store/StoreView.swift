@@ -8,44 +8,42 @@
 import SwiftUI
 
 struct StoreView: View {
-    
     @ObservedObject var viewModel: StoreViewModel
     
     var body: some View {
-        VStack {
-            NavigationView {
+        NavigationView {
+            VStack {
                 List(viewModel.products) { product in
                     StoreProductView(product: product, viewModel: viewModel)
                 }
+                .listStyle(PlainListStyle())
+                .cornerRadius(10)
+                
+                Button(action: {
+                    viewModel.discountProducts(precentage: 20)
+                }) {
+                    Text("Discount 20%")
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 50)
+                        .foregroundColor(.white)
+                        .font(.headline)
+                }
+                .disabled(viewModel.hasDiscounted)
+                .background(viewModel.hasDiscounted ? .gray : .orange)
+                .cornerRadius(10)
+                
+                HStack {
+                    Text("Total: ₾\(String(format: "%.2f", viewModel.total))")
+                        .font(.headline)
+                        .padding()
+                }
             }
-            .listStyle(PlainListStyle())
-            .cornerRadius(10)
-            
-            Button(action: {
-                viewModel.discountProducts(precentage: 20)
-            }) {
-                Text("Discount 20%")
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 50)
-                    .foregroundColor(.white)
-                    .font(.headline)
-            }
-            .disabled(viewModel.hasDiscounted)
-            .background(viewModel.hasDiscounted ? .gray : .orange)
-            .cornerRadius(10)
-            
-            
-            
-            HStack {
-                Text("Total: ₾\(String(format: "%.2f", viewModel.total))")
-                    .font(.headline)
-                    .padding()
-            }
+            .padding()
+            .navigationTitle("Store")
         }
-        .padding()
-        
     }
 }
+
 
 
 struct StoreProductView: View {
@@ -115,9 +113,8 @@ struct StoreProductView: View {
                 .background(Color.red)
                 .clipShape(RoundedRectangle(cornerRadius: 8))
             }
-            
+            .buttonStyle(PlainButtonStyle())
         }
-        
     }
 }
 
